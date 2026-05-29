@@ -28,11 +28,20 @@ const NAV = [
   ]},
 ];
 
-function Shell({ active, onNavigate, builder, children }) {
+function Shell({ active, onNavigate, onOpenReader, builder, children }) {
   const tierGold = builder.tier === "souverain";
+  const [navOpen, setNavOpen] = useStateS(false);
+
+  const go = (id) => {
+    if (id === "reader") onOpenReader?.({});
+    else onNavigate(id);
+    setNavOpen(false);
+  };
+
   return (
     <div className="app">
-      <aside className="sidebar">
+      {navOpen && <div className="sidebar-backdrop visible" onClick={() => setNavOpen(false)} aria-hidden="true" />}
+      <aside className={"sidebar" + (navOpen ? " open" : "")}>
         <div className="sb-head">
           <div className="sb-brand">
             <span className="sb-logo"><EdificeGlyph size={18} color="var(--primary-foreground)" /></span>
@@ -48,7 +57,7 @@ function Shell({ active, onNavigate, builder, children }) {
             <div className="sb-group" key={g.group}>
               <div className="sb-grouplabel">{g.group}</div>
               {g.items.map((it) => (
-                <button key={it.id} className={"sb-item" + (active === it.id ? " active" : "")} onClick={() => onNavigate(it.id)}>
+                <button key={it.id} className={"sb-item" + (active === it.id ? " active" : "")} onClick={() => go(it.id)}>
                   <Icon name={it.icon} size={16} />
                   <span>{it.label}</span>
                   {it.count && <span className="count">{it.count}</span>}
@@ -79,7 +88,9 @@ function Shell({ active, onNavigate, builder, children }) {
 
       <div className="main">
         <header className="appbar">
-          <Icon name="panel-left" size={18} className="muted" />
+          <button type="button" className="btn btn-ghost btn-icon nav-toggle" aria-label="Menu" onClick={() => setNavOpen((o) => !o)}>
+            <Icon name="panel-left" size={18} className="muted" />
+          </button>
           <span className="sep" />
           <span className="title">{TITLES[active] || "ÉDIFICE"}</span>
           <span className="spacer" />

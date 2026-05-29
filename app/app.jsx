@@ -6,11 +6,16 @@ function App() {
   const [enrolled, setEnrolled] = useStateApp(() => localStorage.getItem("edifice.enrolled") === "1");
   const [tier, setTier] = useStateApp(() => localStorage.getItem("edifice.tier") || "eveil");
   const [name, setName] = useStateApp(() => localStorage.getItem("edifice.name") || base.name);
-  const [route, setRoute] = useStateApp(() => localStorage.getItem("edifice.route") || "library");
+  const [route, setRoute] = useStateApp(() => {
+    const saved = localStorage.getItem("edifice.route") || "library";
+    return saved === "reader" ? "library" : saved;
+  });
   const [readerInit, setReaderInit] = useStateApp({});
 
   useEffectApp(() => { localStorage.setItem("edifice.tier", tier); }, [tier]);
-  useEffectApp(() => { localStorage.setItem("edifice.route", route); }, [route]);
+  useEffectApp(() => {
+    if (route !== "reader") localStorage.setItem("edifice.route", route);
+  }, [route]);
   useEffectApp(() => { localStorage.setItem("edifice.enrolled", enrolled ? "1" : "0"); }, [enrolled]);
 
   const builder = {
@@ -49,7 +54,7 @@ function App() {
   }
 
   return (
-    <Shell active={route} onNavigate={setRoute} builder={builder}>
+    <Shell active={route} onNavigate={setRoute} onOpenReader={openReader} builder={builder}>
       {page}
     </Shell>
   );

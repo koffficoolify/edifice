@@ -176,3 +176,14 @@ body{background:var(--background);color:var(--foreground);font-family:var(--font
 .menu button.danger .icon{color:var(--destructive);}
 
 .empty{padding:56px 24px;text-align:center;color:var(--muted-foreground);font-size:var(--text-sm);}
+
+/* ---------------- Mobile nav ---------------- */
+.nav-toggle{display:none;}
+.sidebar-backdrop{display:none;}
+@media (max-width:900px){
+  .nav-toggle{display:inline-flex;}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:30;transform:translateX(-100%);margin-left:0!important;box-shadow:var(--shadow-lg);}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-backdrop.visible{display:block;position:fixed;inset:0;background:rgb(0 0 0/.45);z-index:25;}
+  .appbar .searchbox{display:none;}
+}
