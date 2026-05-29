@@ -3,7 +3,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY lib/ /usr/share/nginx/html/lib/
 COPY app/ /usr/share/nginx/html/app/
-COPY "ÉDIFICE.html" /usr/share/nginx/html/index.html
+COPY index.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
