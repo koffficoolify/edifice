@@ -2,22 +2,26 @@
 
 Site statique (React + Babel dans le navigateur).
 
-## Coolify (build pack Static / Nixpacks)
+## Coolify — mode Dockerfile (recommandé)
 
-1. **Is it a static site?** → oui  
-2. **Publish Directory** → `dist`  
-3. **Build Command** → `npm run build` (défaut si `package.json` présent)  
-4. **Install Command** → vide ou `npm install` (aucune dépendance npm)
+Dans Coolify : **Build Pack → Dockerfile**
 
-Le script `build` copie `index.html`, `app/` et `lib/` vers `dist/` — Coolify attend ce dossier.
+- **Port Exposes** : `80`
+- Pas besoin de configurer `dist` à la main : le Dockerfile fait `npm run build` puis sert les fichiers
 
-`nginx.conf` à la racine : config utilisée par l’image nginx générée par Coolify (ne pas supprimer).
+## Coolify — mode Static / Nixpacks (alternative)
+
+**Build Pack → Nixpacks** + **Is it a static site?** → oui
+
+- **Publish Directory** → `dist`
+- **Build Command** → `npm run build`
+- Garder `nginx.conf` à la racine
 
 ## Test en local
 
 ```bash
-npm run build
-python3 -m http.server 8080 --directory dist
+docker build -t edifice .
+docker run --rm -p 8080:80 edifice
 ```
 
 → http://localhost:8080
