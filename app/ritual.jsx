@@ -146,6 +146,15 @@ function Ritual({ onComplete }) {
               <Icon name="feather" size={16} />
               Prêter serment et entrer
             </button>
+            <button
+              type="button"
+              className="btn btn-ghost"
+              style={{ width: "100%", marginTop: 10, height: 40, fontSize: 13, color: "oklch(0.62 0.01 80)" }}
+              onClick={() => onComplete(name.trim() || window.EDIFICE_DATA.BUILDER.name)}
+            >
+              <Icon name="play" size={15} />
+              Mode démo — entrer sans signature
+            </button>
             <div className="center muted" style={{ fontSize: 11, marginTop: 12, color: "oklch(0.56 0.01 80)" }}>
               En entrant, tu acceptes le Code du Bâtisseur. Empreinte conservée localement, jamais revendue.
             </div>
