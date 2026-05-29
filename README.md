@@ -2,18 +2,22 @@
 
 Site statique (React + Babel dans le navigateur).
 
-## Coolify
+## Coolify (build pack Static / Nixpacks)
 
-- Type de build : **Static** (pas de Dockerfile)
-- Racine du site : répertoire du repo (`index.html` à la racine)
-- Traefik / le proxy Coolify sert les fichiers — rien à ajouter dans le repo
+1. **Is it a static site?** → oui  
+2. **Publish Directory** → `dist`  
+3. **Build Command** → `npm run build` (défaut si `package.json` présent)  
+4. **Install Command** → vide ou `npm install` (aucune dépendance npm)
 
-**Port Exposes** : laisser la valeur par défaut Coolify pour un site statique (souvent `80`).
+Le script `build` copie `index.html`, `app/` et `lib/` vers `dist/` — Coolify attend ce dossier.
+
+`nginx.conf` à la racine : config utilisée par l’image nginx générée par Coolify (ne pas supprimer).
 
 ## Test en local
 
 ```bash
-python3 -m http.server 8080
+npm run build
+python3 -m http.server 8080 --directory dist
 ```
 
-→ http://localhost:8080 (ne pas ouvrir le HTML en `file://`).
+→ http://localhost:8080

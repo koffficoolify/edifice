@@ -1,0 +1,7 @@
+{
+  "name": "edifice",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp index.html dist/ && cp -r app lib dist/"
+  }
+}
